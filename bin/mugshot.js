@@ -4,6 +4,7 @@
 
 var exif = require('exif'),
   fs = require('node-fs'),
+  moment = require('moment'),
   path = require('path'),
   program = require('commander');
 
@@ -13,27 +14,67 @@ program
   .option('-d, --dest <dest>', 'Destination folder')
   .parse(process.argv);
 
-function getDestinationDirectory(file, date, done) {
-  var dest = path.join(program.dest, date.substr(0, 4), date.substr(5, 2), date.substr(8, 2));
-  fs.mkdir(dest, '0777', true, function() {
-    return done(null, dest);
-  });
-}
+function getDestination(file, done) {
+  function parseExif(e, data) {
 
-function act(file, done) {
+    if (!data || !data.exif || !data.exif.DateTimeOriginal) {
+      return done('no exif');
+    }
+    var date = data.exif.DateTimeOriginal;
+    var year = date.substr(0, 4),
+      month = date.substr(5, 2),
+      day = date.substr(8, 2),
+      hour = date.substr(11, 2),
+      minute = date.substr(14, 2),
+      second = date.substr(17, 2);
+
+    date = new Date(year, month - 1, day, hour, minute, second);
+
+    var dir = path.join(program.dest, year, month),
+      file = path.join(dir, date.toISOString() + '.jpg');
+
+    fs.mkdir(dir, '0777', true, function() {
+      return done(null, file);
+    });
+  }
+
   return new exif.ExifImage({
     image: file
-  }, function(e, data) {
-    if (!data || !data.exif || !data.exif.DateTimeOriginal) {
-      return done();
+  }, parseExif);
+}
+
+function structure(file, done) {
+  process.stdout.write('.');
+  return getDestination(file, function(e, dest) {
+    if (e) {
+      return done(e);
     }
-    return getDestinationDirectory(file, data.exif.DateTimeOriginal, function(e, dest) {
-      console.log('act', file, data.exif.DateTimeOriginal, dest);
+    return fs.exists(dest, function(exists) {
+      if (exists) {
+        return done();
+      }
+      //console.log(file + ' -> ' + dest);
+
+      var r = fs.createReadStream(file);
+      var w = fs.createWriteStream(dest);
+      r.on('error', done);
+      w.on('error', function(e) {
+        console.error(e);
+        return done(e);
+      });
+      w.on('close', done);
+      return r.pipe(w);
+
     });
   });
 };
 
-function walk(dir, done) {
+function archive(file, done) {
+  process.stdout.write('.');
+  return done();
+};
+
+function walk(dir, action, done) {
   return fs.readdir(dir, function(e, list) {
     if (e) {
       return done(e);
@@ -58,15 +99,22 @@ function walk(dir, done) {
       file = path.join(dir, file);
       fs.stat(file, function(e, stat) {
         if (stat && stat.isDirectory()) {
-          return walk(file, checkDone);
+          return walk(file, action, checkDone);
         } else {
-          return act(file, checkDone);
+          return action(file, checkDone);
         }
       });
     });
   });
 };
 
-return walk(program.source, function(e, files) {
-  return process.exit(1);
+console.log('structuring');
+return walk(program.source, structure, function() {
+  console.log('.');
+  console.log('archiving');
+  return walk(program.dest, archive, function() {
+    console.log('.');
+    console.log('done');
+    return process.exit(1);
+  });
 });
