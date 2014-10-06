@@ -1,0 +1,15 @@
+{
+  "name": "mugshot",
+  "version": "0.0.1",
+  "description": "Simple photo backups",
+  "author": "Roy Lines",
+  "license": "MIT",
+  "bin": {
+    "mugshot": "./bin/mugshot.js"
+  },
+  "dependencies": {
+    "commander": "^2.3.0",
+    "exif": "^0.4.0",
+    "node-fs": "^0.1.7"
+  }
+}
