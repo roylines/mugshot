@@ -7,12 +7,18 @@ var mugshot = require('../lib/mugshot'),
 
 program
   .version('0.0.1')
-  .option('-s, --source <source>', 'Source folder')
-  .option('-d, --dest <dest>', 'Destination folder')
-  .parse(process.argv);
+  .option('--source <source>', 'Source folder')
+  .option('--dest <dest>', 'Destination folder')
+  .option('--bucket <bucket>', 'S3 bucket')
+  .option('--accessid <access key id>', 'AWS Access Key Id')
+  .option('--secretid <secret key id>', 'AWS Secret Key Id')
+  .option('--action <action>', 'Action')
 
-mugshot(program.source, program.dest, function(e) {
+.parse(process.argv);
+
+mugshot(program, function(e) {
   if (e) {
+    console.error(e);
     return process.exit(1);
   }
   return process.exit(0);
