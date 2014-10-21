@@ -1,0 +1,17 @@
+#!/bin/bash
+
+SRC='/home/roy/Pictures/New'
+DST='/home/roy/Pictures/Mugshot'
+
+echo "importing files from $SRC to $DST..."
+mkdir -p $DST/Working
+
+find $SRC -type f -name "*.JPG" -exec rename 's/\.JPG$/.jpg/' {} \;
+
+find $SRC -type f -iname "*.jpg" | /usr/bin/renrot --no-rotate --work-directory $DST/Working --aggr-directory $DST/Photos --aggr-mode=template --aggr-template "%Y/%m" --sub-fileset - 
+
+rmdir $DST/Working
+
+echo 'pruning...'
+find $SRC -type d -empty -exec rmdir {} \;
+
