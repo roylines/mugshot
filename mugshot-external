@@ -1,0 +1,8 @@
+#!/bin/bash
+
+SRC="/home/roy/Pictures/Mugshot"
+DST="/media/roy/WhirlyBird"
+
+echo "backing up to $DST"
+rsync -rv $SRC $DST
+

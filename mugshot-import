@@ -15,3 +15,4 @@ rmdir $DST/Working
 echo 'pruning...'
 find $SRC -type d -empty -exec rmdir {} \;
 
+
