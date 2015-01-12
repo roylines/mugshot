@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SRC='/home/roy/Pictures/New'
+SRC='/home/roy/Pictures/New/'
 DST='/home/roy/Pictures/Mugshot'
 
 echo "importing files from $SRC to $DST..."
