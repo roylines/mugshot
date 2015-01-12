@@ -1,9 +1,9 @@
 #!/bin/bash
 
-SRC="/home/roy/Pictures/Mugshot/Photos"
+SRC="/Users/roylines/Pictures/Mugshot/Photos"
 DST="s3://$MUGBUCKET.photos"
 
 echo "backing up from $SRC to $DST"
 
-aws s3 sync $SRC $DST --region us-east-1 
+aws s3 sync $SRC $DST --region us-east-1 --size-only --exclude "*.DS_Store" 
 

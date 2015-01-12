@@ -1,18 +1,12 @@
 #!/bin/bash
+set -e 
 
-SRC='/home/roy/Pictures/New/'
-DST='/home/roy/Pictures/Mugshot'
+SRC='/Users/roylines/Pictures/New/'
+DST='/Users/roylines/Pictures/Mugshot'
 
 echo "importing files from $SRC to $DST..."
-mkdir -p $DST/Working
 
-find $SRC -type f -name "*.JPG" -exec rename 's/\.JPG$/.jpg/' {} \;
+exiftool -ext jpg -r -d "$DST/Photos/%Y/%m/%Y%m%d%H%M%S.jpg" "-filename<filemodifydate" $SRC
 
-find $SRC -type f -iname "*.jpg" | /usr/bin/renrot --no-rotate --work-directory $DST/Working --aggr-directory $DST/Photos --aggr-mode=template --aggr-template "%Y/%m" --sub-fileset - 
-
-rmdir $DST/Working
-
-echo 'pruning...'
-find $SRC -type d -empty -exec rmdir {} \;
-
-
+#echo 'pruning...'
+#find $SRC -type d -empty -exec rmdir {} \;
