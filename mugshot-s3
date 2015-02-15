@@ -3,7 +3,13 @@
 SRC="/Users/roylines/Pictures/Mugshot/Photos"
 DST="s3://$MUGBUCKET.photos"
 
-echo "backing up from $SRC to $DST"
+echo "backing up photos from $SRC to $DST"
 
-aws s3 sync $SRC $DST --region us-east-1 --size-only --exclude "*.DS_Store" 
+aws s3 sync $SRC $DST --region us-east-1 --size-only --exclude "*.DS_Store" --profile roy 
 
+SRC="/Users/roylines/Pictures/Mugshot/Videos"
+DST="s3://$MUGBUCKET.videos"
+
+echo "backing up videos from $SRC to $DST"
+
+aws s3 sync $SRC $DST --region us-east-1 --size-only --exclude "*.DS_Store" --profile roy

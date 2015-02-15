@@ -4,9 +4,9 @@ set -e
 SRC='/Users/roylines/Pictures/New/'
 DST='/Users/roylines/Pictures/Mugshot'
 
-echo "importing files from $SRC to $DST..."
+echo "importing images from $SRC to $DST/Photos ..."
+exiftool -ext jpg -r -d "$DST/Photos/%Y/%m/%Y%m%d%H%M%S%%-2c.jpg" "-filename<filemodifydate" $SRC
 
-exiftool -ext jpg -r -d "$DST/Photos/%Y/%m/%Y%m%d%H%M%S.jpg" "-filename<filemodifydate" $SRC
+echo "importing mp4s from $SRC to $DST/Videos ..."
+exiftool -ext mp4 -r -d "$DST/Videos/%Y/%m/%Y%m%d%H%M%S%%-2c.mp4" "-filename<filemodifydate" $SRC
 
-#echo 'pruning...'
-#find $SRC -type d -empty -exec rmdir {} \;

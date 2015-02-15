@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRC="/home/roy/Pictures/Mugshot"
-DST="/media/roy/WhirlyBird"
+DST="/Volumes/Sanctuary/"
 
 echo "backing up to $DST"
 rsync -av $SRC $DST

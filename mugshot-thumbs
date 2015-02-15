@@ -1,8 +1,0 @@
-#!/bin/bash
-
-SRC='/home/roy/Pictures/Mugshot/Photos'
-DST='/home/roy/Pictures/Mugshot/Thumbs'
-
-echo "creating thumbs from $SRC to $DST..."
-
-
