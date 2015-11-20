@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e 
 
-SRC='/Users/roylines/Pictures/New/'
-DST='/Users/roylines/Pictures/Mugshot'
+SRC=$MUGSRC
+DST=$MUGDIR
 
 echo "importing images from $SRC to $DST/Photos ..."
 exiftool -ext jpg -r -d "$DST/Photos/%Y/%m/%Y%m%d%H%M%S%%-2c.jpg" "-filename<filemodifydate" $SRC

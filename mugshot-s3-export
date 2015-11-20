@@ -5,11 +5,11 @@ DST="s3://$MUGBUCKET.photos"
 
 echo "backing up photos from $SRC to $DST"
 
-aws s3 sync $SRC $DST --region us-east-1 --size-only --exclude "*.DS_Store" --profile roy 
+aws s3 sync $DST $SRC --region us-east-1 --size-only --exclude "*.DS_Store" --profile roy 
 
 SRC="$MUGDIR/Videos"
 DST="s3://$MUGBUCKET.videos"
 
 echo "backing up videos from $SRC to $DST"
 
-aws s3 sync $SRC $DST --region us-east-1 --size-only --exclude "*.DS_Store" --profile roy
+aws s3 sync $DST $SRC --region us-east-1 --size-only --exclude "*.DS_Store" --profile roy
