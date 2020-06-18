@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#https://www.chriswrites.com/how-to-sync-files-and-folders-on-the-mac/
+
+DIR="/Users/roy/Pictures/Mugshot"
+OTHER="roy@shiva.local"
+
+echo "backing up from $OTHER"
+rsync -vrt --size-only $OTHER:$DIR/ $DIR
+
+echo "backing up to $OTHER"
+rsync -vrt --size-only $DIR/ $OTHER:$DIR
+
