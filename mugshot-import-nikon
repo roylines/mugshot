@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e 
+
+SRC="/Volumes/NIKON D3400/DCIM/102D3400/"
+DST=$MUGDIR
+
+echo "importing nikon images from $SRC to $DST/Photos ..."
+exiftool -ext jpg -r -d "$DST/Photos/%Y/%m/%Y%m%d%H%M%S%%-2c.jpg" "-filename<filemodifydate" "$SRC"
+
+
