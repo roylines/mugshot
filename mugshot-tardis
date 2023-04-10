@@ -1,0 +1,8 @@
+#!/bin/bash
+# this is one-directional and consolidates onto hard-drive
+SRC=$MUGDIR/
+DST="/Volumes/TARDIS/Mugshot/"
+
+echo "merging from $SRC -> $DST"
+rsync -vrt --size-only --exclude ".*" $SRC $DST
+
